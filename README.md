@@ -436,9 +436,9 @@ print('Perimeter is ',2*(length+breadth))
 #    控制流
 
 python中有三种控制流语句
-*     if
-*     for
-*     while
+*    if
+*    for
+*    while
 
 
 ### if语句
