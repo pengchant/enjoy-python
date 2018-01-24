@@ -996,7 +996,7 @@ del a
 
 ###    **包**
 
-代码必须加以有效的管理，学过java、c++的同志们应该知道代码必须有章法，否则就是一盘散沙不能够真正凝聚力量来解决大规模的问题。python中，变量通常位于函数的内部，函数和全局变量通常位于模块内部。如果你希望组织起来，这就是***包(Package)***登场的时刻.
+代码必须加以有效的管理，学过java、c++的同志们应该知道代码必须有章法，否则就是一盘散沙不能够真正凝聚力量来解决大规模的问题。python中，变量通常位于函数的内部，函数和全局变量通常位于模块内部。如果你希望组织起来，这就是**包(Package)**登场的时刻.
 
 包是指一个包含模块与一个特出的\_\_init\_\_.py文件的文件夹，后者想Python表面这一文件夹是特别的，因为其包含了python模块.
 
@@ -1017,6 +1017,98 @@ del a
                         - bar.py
 
 > 包是一种能够方便地分层组织模块的方式，你将在标准库中看到许多诸如此类的实例
+
+
+---
+
+#    **数据结构**
+
+数据结构(Data Structures)是用来存储一些相关数据的集合。
+
+在python中有四种内置的数据结构
+*    列表(List)
+*    元祖(Tuple)
+*    字典(Dictionary)
+*    集合(Set)
+
+###    **列表(List)**
+
+列表是一种用于保存一些**有序**项目的集合.python中需要你在它们之间多加上一个逗号，项目的列表应该用方括号括起来，这样python才能理解你正在指定一张列表.一旦你创建了一张列表你可以添加、删除、搜索列表中的项目.我们说列表是一种可变(Mutable)的数据类型，这种数据类型是可以被改变的.
+
+###    **有关对象和类的快速介绍**
+
+列表是使用对象与类的实例。当我们启用一个变量i并将整数5赋值给它时，你可以认为这是在创建一个int类之下的对象i.
+
+一个类也可以带有方法(Method),也就是说对这个类定义仅对于它启用某个函数.例如python 为 list 类提供了一种 append 方法,它能够允许你向列表末尾添加一个项目.例如` mylist.append('an item') `将会向mylist添加一串字符串.
+
+一个类同样也可以具有字段(Field),它是只为该类定义且为该类所用的变量.字段同样可以通过.来访问，比如` mylist.field `.
+
+案例(保存为 ` ds_using_list.py `)
+
+```python
+shoplist = ['apple','mango','carrot','banana']
+
+print('I have',len(shoplist),' items to purchase')
+
+print('These items are:',end=' ')
+for item in shoplist:
+    print(item,end=' ')
+
+print('\nI also have to buy rice.')
+shoplist.append('rice')
+print('My shopping list is now ',shoplist)
+
+print('I will sort my list now')
+shoplist.sort()
+print('Sorted shopping list is ',shoplist)
+
+print('The first item I will buy is ',shoplist[0])
+olditem = shoplist[0]
+del shoplist[0]
+print('I bought the',olditem)
+print('My shopping list is now',shoplist)
+
+```
+
+输出结果：
+
+![ds_using_list.png](img/ds_using_list.png "")
+
+你可以想列表中添加任何类型的对象，包括数字，甚至是其他列表
+我们还使用 for...in 循环来便利列表中的每一个项目
+这里注意在调用print函数时我们使用end参数，这样就能够通过一个空格来完成输出工作而不是通常的换行.
+接下来，如我们讨论的那段，我们通过列表对象中的append方法向列表中添加一个对象.
+>列表是可变的，而字符串是不可变的
+当我们需要删除列表中的元素时，我们使用`del`语句来实现这一需求.
+
+###    **元组**
+
+元素(Tuple)用于将多个对象保存在一起。类似于列表但是不能提供列表类能够提供给你的广泛的功能。元素的一大特征类似于字符串，他们不可变.你不能编辑或者更改元组.
+
+案例(ds_using_tuple.py):
+
+```python
+zoo = ('python','elephant','penguin')
+print('Number of animals in the zoo is ',len(zoo))
+
+new_zoo = 'monkey','camel',zoo
+print('Number of cages in the new zoo is ',len(new_zoo))
+print('All animals in new zoo are ',new_zoo)
+print('Animals brought from old zoo is ',new_zoo[2])
+print('Last animal brought from old zoo is ',new_zoo[2][2])
+print('Number of animals in the new zoo is ',len(new_zoo)-1+len(new_zoo[2]))
+```
+
+输出结果：
+
+![tuples.png](img/tuples.png "")
+
+> 如同我们在列表里所做的那般，我们可以通过在方括号中指定项目所处的位置来访问元祖中的各个项目。这种使用方括号的形式被称为**索引(Indexing)**运算符.
+>
+> 一个空的元素由一对圆括号组成，就像 `myempty=()` 这样.然而，一个只拥有一个项目的元祖并不像这样简单.你必须在第一个项目的后边加上一个逗号来指定它，如此一来python才可以识别出在这个表达式想表达的是一个元组还是一个对象.如果你想指定一个包含项目2的元组你必须指定`singleton=(2,)`
+
+
+
 
 
 
