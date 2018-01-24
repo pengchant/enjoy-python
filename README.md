@@ -806,7 +806,7 @@ None 在Pyton中是一个特殊的类型，代表着虚无。
 ---
 ###    **DocStrings**
 
-***DocStrings***是一款甚是有没的功能，能够帮助你更好地记录程序并让其更加易于理解。
+**DocStrings**是一款甚是优美的功能，能够帮助你更好地记录程序并让其更加易于理解。
 
 案例：
 
@@ -832,6 +832,176 @@ print(print_max.__doc__)
 ![function_docstring.png](img/function_docstring.png "")
 
 >我们可以通过函数的 `__doc__` 的属性来获取函数print_max文档的字符串属性，自动化工具可以用这种方式来检索你程序中的文档，所以墙裂建议编写的所有重要的函数配以文档字符串。python发型版本中附带的pydoc命令和help()使用文旦字符串的方式类似
+
+---
+
+#    **模块**
+
+如果你想在你所编写的程序中重用一些函数的话，应该怎么办？答案是模块(Modules).
+
+首先我们来了解如何使用标准款模块
+
+```python
+import sys
+
+print('The command line arguments are:')
+for i in sys.argv:
+    print(i)
+
+print('\n\nThe PYTHONPATH is ',sys.path,'\n')
+```
+
+输出：
+
+![module_using_sys.png](img/module_using_sys.png "")
+
+---
+
+### **按字节编码的.pyc文件**
+
+导入一个模块是一件代价高昂的事情，因此python引入了一些技巧来使其能够更加快速的完成。其中一种方式就是创建按字节码编译的***(byte-compiled)***文件，这些.pyc文件是独立于运行平台的
+
+> 这些.pyc文件通常会创建在对应的.py文件所处的目录中，如果python没有相应的权限对这一目录进行写入文件的操作，那么.pyc文件将不会被创建.
+
+---
+
+### **from..import 语句**
+
+如果希望直接将argv的变量导入自己的程序，可以使用`from sys import argv`这一语句来完成.
+
+> 警告：一般来说，应该尽量避免使用from...import 语句，而去使用import语句,这是为了避免在自己的程序中出现名称冲突，也为了使程序更加的可读
+
+案例
+
+```python
+from math import sqrt
+print('square root of 16 is ',sqrt(16))
+```
+
+---
+
+### **模块的 __name__语句**
+
+每一个模块都有一个名称，而模块中的语句可以找到它们所处的模块的名称，这对于确定模块是独立运行的还是被导入进来的运行的这一特定目的来说大为有用.
+
+案例：
+
+```python
+if __name__ == '__main__':
+    print('This program is being run by itself')
+else:
+    print('Iam being imported from another module')
+
+```
+
+结果
+
+![module_using_name.png](img/module_using_name.png "")
+
+---
+
+###    **编写你自己的模块**
+
+在Python中每一个python程序同时也是一个模块。只需要保证它以.py为拓展名即可
+
+案例(保存为 mymodule.py)
+
+```python
+def say_hi():
+    print('Hi,this is mymodule speaking.')
+
+__version__ = '0.1'
+```
+
+另一个模块(保存为 mymodule_demo.py)
+
+```python
+import  mymodule
+
+mymodule.say_hi()
+print('Version',mymodule.__version__)
+
+```
+
+输出：
+
+        Hi,this is mymodule speaking.
+        Version 0.1
+
+下面是` from...import` 语法的版本(保存为 `mymodule_demo2.py`)
+
+```python
+from mymodule import say_hi,__version__
+
+say_hi()
+print('Version',__version__)
+
+```
+
+> 这里需要注意的是，如果导入到mymodule中已经存在了\_\_version\_\_这一名称，那将会产生冲突。所以我们大都推荐最好去使用import 语句，尽管看起来代码稍微长一些。
+
+你还可以使用：
+
+```python
+from mymodule import *
+```
+这将导入诸如 `say_hi` 等所有公共名称，但不会导入\_\_version\_\_名称,因为后者以双下划线开头.
+
+> 警告：应该避免使用import-star 这种形式
+
+---
+
+###    **dir 函数**
+
+内置的 `dir()` 函数能够返回由对象所定义的名称列表.
+如果该对象是一个模块,则该列表会包括函数内所定义的函数、类与变量
+
+另外，该函数还接受参数。如果参数时模块名称，函数将返回这一指定模块的名称列表。如果没有提供参数，函数将返回当前模块的名称列表。
+
+案例：
+
+```python
+import sys
+dir(sys)
+```
+
+返回的结果：
+
+![dir.png](img/dir.png "")
+
+下面给出当前模块的属性名称
+```python
+dir()
+```
+
+返回的结果
+
+![dir02.png](img/dir02.png "")
+
+接着创建一个新的变量
+
+```python
+a = 5
+```
+
+返回的结果：
+
+![dir03.png](img/dir03.png "")
+
+删除或者移除一个名称
+
+```python
+del a
+```
+
+返回的结果：
+
+![dir04.png](img/dir04.png "")
+
+
+
+
+
 
 
 
