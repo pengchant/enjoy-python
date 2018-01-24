@@ -992,8 +992,31 @@ del a
 
 ![dir04.png](img/dir04.png "")
 
+> 同时还有一个` vars() `函数也可以返回给你这些值的属性，但只是可能，并不对所有的类都能正常工作
 
+###    **包**
 
+代码必须加以有效的管理，学过java、c++的同志们应该知道代码必须有章法，否则就是一盘散沙不能够真正凝聚力量来解决大规模的问题。python中，变量通常位于函数的内部，函数和全局变量通常位于模块内部。如果你希望组织起来，这就是***包(Package)***登场的时刻.
+
+包是指一个包含模块与一个特出的\_\_init\_\_.py文件的文件夹，后者想Python表面这一文件夹是特别的，因为其包含了python模块.
+
+假设你想创建一个"world"的包，其中还包含着"asia"、"afica"等包，并且这些子包都包含了诸如"india"、"madagascar"等模块.
+
+        - <some floder present in the sys.path>/
+            - world/
+                - __init__.py
+                - asia/
+                    - __init_.py
+                    - india/
+                        - __init_.py
+                        - foo.py
+                - africa/
+                    - __init__.py
+                    - madagascar/
+                        - __init__.py
+                        - bar.py
+
+> 包是一种能够方便地分层组织模块的方式，你将在标准库中看到许多诸如此类的实例
 
 
 
