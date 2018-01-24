@@ -382,7 +382,184 @@ print('I repeat,the value is',i)
         *    如果x为` True `,返回 ` True `，否则返回y的计算值
         *    ` x = True;y = False; x or y ` 返回` True `,在这里短路运算同样适用.
    
+
+### 数值运算与赋值的快捷方式
+
+> 变量 = 变量 运算 表达式 
+
+``` python
+a = 2
+a = a*3
+```
+
+> 变量 运算 = 表达式 
+
+```python
+a = 2
+a *= 3
+```
+
+### 求值顺序
+
+下表罗列了python的运算的优先级
+
+![yunsuan01.png](img/yunsuan01.png "")
+![yunsuan02.png](img/yunsuan02.png "")
+
         
+### 改变运算顺序
+
+可以使用括号来使得表达式更加易读
+
+### 结合性
+
+运算符通常由左至右结合
+
+### 表达式
+
+例子
+
+```python
+length = 5
+breadth = 2
+
+area = length*breadth
+print('Area is ',area)
+print('Perimeter is ',2*(length+breadth))
+```
+
+输出
+
+  ![ex.png](img/ex.png "")
+
+
+#    控制流
+
+python中有三种控制流语句
+*     if
+*     for
+*     while
+
+
+### if语句
+
+案例，其中else从句是可选的
+
+```python
+number = 23
+guess = int(input('Enter an integer:'))
+
+if guess == number:
+    print('Congratulations,gu guessed it.')
+    print('(but you do not win any prizes!)')
+elif guess<number:
+    print("No,it is a litter higher than that")
+else:
+    print('No,it is a little lower than that!')
+
+print('Done')
+```
+
+输出
+
+![cg.png](img/cg.png "")
+![lh.png](img/lh.png "")
+![lr.png](img/lr.png "")
+
+
+> python 中不存在switch语句
+
+
+### while 语句
+
+案例：
+
+```python
+number = 23
+running = True
+
+while running:
+    guess = int(input('enter an integer :'))
+
+    if guess == number:
+        print('success!,you guessed it.')
+        running = False
+    elif guess<number:
+        print('No,it is little higher!')
+    else:
+        print('No,it is little lower!')
+else:
+    print('The while loop is over.')
+
+print('done')
+```
+
+结果：
+
+![while-01.png](img/while-01.png "")
+
+> 可以在while循环中使用else语句
+
+### for 循环
+
+```python
+for i in range(1,5):
+    print(i)
+else:
+    print('The for loop is over')
+
+```
+输出的结果为
+
+![for.png](img/for.png "")
+
+>在这个例子中我们使用了内置的`range`函数生成这一数字序列。range(1,5)将会产生[1,2,3,4]。如果我们向range提供第三个参数，这个数字将成为步长，比如range(1,5,2),将会产生[1,3],特别注意不包括第二个数字在内，换做数学语言来讲是左边开区间，右边闭区间，第三个数为步长。
+
+
+### break 语句
+
+
+`break`语句用以中断循环语句，也就是终止循环的语句。
+
+> 有一点需要注意的是，如果你中断了比如for和while循环，那么，任何相应循环中的else块都将不会执行
+
+案例：
+
+```python
+while True:
+    s = input('Enter something:')
+    if s == 'quit':
+        break
+    print('Length of the string is ',len(s))
+print('Done')
+```
+运行结果：
+
+![break.png](img/break.png "")
+
+
+###  continue 语句
+
+所谓continue就是告诉python跳过当前循环中的剩余的语句继续下一个循环。
+
+案例：
+
+```python
+while True:
+    s = input('Enter something:')
+    if s == 'quit':
+        break
+    if len(s)<3:
+        print('Too small')
+        continue
+    print('Input is out of sufficient length')
+```
+
+运行结果：
+
+![continue.png](img/continue.png "")
+
+> 注意 continue 同样能够适用于for循环
 
 
 
