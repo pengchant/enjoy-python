@@ -1705,6 +1705,8 @@ Robot.how_may()
 
 面向对象编程的一个优点就是代码的重用(Reuse),重用的一种实现方法就是继承机制.
 
+![jc.png](img/jc.png "")
+
 案例:
 ```python
 # coding=UTF-8
