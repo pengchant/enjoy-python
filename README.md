@@ -1514,7 +1514,241 @@ else:
 > 注意本代码中在为用户评论修改zip文件名称时要注意使用'\'，注意区分物理行和逻辑行的区别
 
 
+###    **继续改进**
 
+上面的程序已经能够对大多数用户来说都能令人满意地工作的脚本了.但是，我们不能仅仅满足于此，我们还可以通过添加`-v`和`-q`分别来表示显示详细信息和退出程序.
+最重要的改进是不使用os.system的方法来创建归档文件，而是使用zipfile或者tarfile内置的模块来创建它们的归档文件.这是标准库的一部分，随时供你在电脑上没有zip程序外部依赖的情况下跑起来.
+
+
+### **软件开发的流程**
+*    what?
+*    how?
+*    do it!
+*    test
+*    use
+*    maintain
+
+
+---
+
+#    **面向对象编程**
+
+在之前我们编写的程序中都是面向过程的(Procedure-oriented)的编程方式，但是接下来我们要学习一种更为先进的思想方法面向对象编程.
+
+类与对象是面向对象编程的两个主要的方面。一个类能够创建一种新的类型，其中对象是类的实例.
+
+*    字段(Field): 从属于对象或者类的变量叫做字段
+*    方法(Method): 属于类的函数来实现某些功能
+> 字段和方法统称为类的属性(Attribute)
+
+字段有两种类型
+*    实例变量(Instance Variables)
+*    类变量(Class Variables)
+
+
+###    **self**
+
+类方法与普通函数只有一种特定的区别--前者必须有一个额外的名字，这个名字必须添加到参数列表的开头，但是你不用再你调用这个功能时为这个参数赋值.python 会为这种特定的变量引用是对象本身,他被赋予`self`这一名称.
+
+> python 中的self 相当于c++中的指针和java和c#中的this指针
+
+
+###    **类**
+
+最简单的类(class)可以通过下面的案例来展示(保存为oop_simplestclass.py)
+
+```python
+class Person:
+    pass
+    
+p = Person()
+print(p)
+```
+
+输出：
+
+![class.png](img/class.png "")
+
+
+###    **方法**
+
+案例：
+
+```python
+class Person:
+    def say_hi(self):
+        print('Hello,how are you?')
+        
+p = Person()
+p.say_hi()
+# 同样可以写作：Person().say_hi()
+
+```
+
+![method.png](img/method.png "")
+
+
+###    **\_\_init\_\_ 方法**
+
+python类中，有不少方法的名称具有特殊的意义.现在我们要了解的就是\_\_init\_\_方法的意义.
+\_\_init\_\_方法会在类的对象呗实例化时立即运行.这一方法可以对任何你想进行操作的木白哦对象进行初始化(Initialization)
+
+案例：
+
+```python
+class Person:
+    def __init__(self,name):
+        self.name = name
+
+    def say_hi(self):
+        print('Hello,my name is ',self.name)
+
+p = Person('chenpeng')
+p.say_hi()
+# 同样的也可以这样写Person('Swaroop').say_hi()
+
+```
+
+输出结果:
+
+![init.png](img/init.png "")
+
+
+> 特别注意的是`self.name`是这个叫name的东西是self对象的一部分，而name则是一个局部变量.
+
+###    **类变量和对象变量**
+
+我们已经讨论过了类与对象的功能部分，现在我们学习书籍部分。
+字段只不是绑定到类与兑现国的命名空间(Namespace).字段(Field)有两种类型-类变量和对象变量
+*    类变量(Class Variable)是共享的，可以被术语该类的所有实例访问.
+*    对象变量(Object Variable)由类的每一个独立的对象或实例所拥有.每个对象都拥有属于它自己字段的副本，也就是说他们不会被共享.
+
+案例：
+
+```python
+# coding=UTF-8
+
+class Robot:
+    """表示有一个带有名字的机器人"""
+    # 一个类变量，用来技术机器人的数量
+    population = 0
+
+    def __init__(self,name):
+        """初始化数据"""
+        self.name = name
+        print("(Initializing({}))".format(self.name))
+
+        # 当有机器人被创建时，机器人会增加人口的数量
+        Robot.population += 1
+
+    def die(self):
+        """我挂了"""
+        print("{} is being destroyed!".format(self.name))
+
+        Robot.population -= 1
+
+        if Robot.population == 0:
+            print("{} was the last one.".format(self.name))
+        else:
+            print("There are still {:d} robots working".format(Robot.population))
+
+    def say_hi(self):
+        """来自机器人真诚的问候"""
+        print('Gretting,my master call me {}.'.format(self.name))
+
+    @classmethod
+    def how_may(cls):
+        """打印当前的人口数量"""
+        print("we have {:d} robots.".format(cls.population))
+
+
+droid1 = Robot("r2-D2")
+droid1.say_hi()
+Robot.how_may()
+
+droid2 = Robot("C-3P0")
+droid2.say_hi()
+Robot.how_may()
+
+print("\nRobots con do some work here.\n")
+
+print("Robots have finished their work,So let's destory them")
+droid1.die()
+droid2.die()
+
+Robot.how_may()
+```
+
+输出结果：
+
+![oop_obvar.png](img/oop_obvar.png "")
+
+> `population`属于`Robot`类,它是一个类变量.name 变量属于一个对象,故他是一个对象变量
+> 除了使用`Robot.population`，我们还可以使用`self.__class__.population`，因为每个对象都通过`self.__class__`属性来引用它的类.
+>`how_many`实际上是一个属于类而非属于对象的方法，这就意味着我们将它定义为一个`classmethod`（类方法）或是一个`staticmethod(静态方法)`.
+> 我们使用装饰器(Decorator)来将`how_many`方法标记为类方法.
+> `@classmethod`装饰器等价于调用:`how_many = classmethod(how_many)
+> 只能使用self来引用同一对象的变量与方法，这被称作属性引用(Attribute Reference)
+> 我们还可以通过`Robot.__doc__`访问类的文档字符串,对于方法字符串可以使用`Robot.say_hi.__doc__`
+> 所有的类成员都是公开的，但是在pyton中有这样一个约定，如果使用数据成员并在名字中使用双下划线作为前缀诸如`__privatevar`这样的形式，python会使用名称调整(Name-mangling)来使其有效地成为一个私有变量.
+> 另外，所有的类成员(包括数据成员)都是公开的,并且python中所有的方法都是虚拟的(Virtual)
+
+###    **继承**
+
+案例:
+```python
+# coding=UTF-8
+
+class SchoolMember:
+    '''代表任何学校里的人员'''
+
+    def __init__(self,name,age):
+        self.name = name
+        self.age = age
+        print('(Initialized schoolMember:{})'.format(self.name))
+
+    def tell(self):
+        '''告诉我有关我的细节'''
+        print('Name:{},age:{}'.format(self.name,self.age))
+
+class Teacher(SchoolMember):
+    '''代表一位老师'''
+
+    def __init__(self,name,age,salary):
+        SchoolMember.__init__(self,name,age)
+        self.salary = salary
+        print('(Initialized Teacher:{})'.format(self.name))
+
+    def tell(self):
+        SchoolMember.tell(self)
+        print('Salray:{:d}'.format(self.salary))
+
+
+class Student(SchoolMember):
+    '''代表一位学生'''
+    def __init__(self,name,age,marks):
+        SchoolMember.__init__(self,name,age)
+        self.marks = marks
+        print('(Initialized Student:{})'.format(self.name))
+
+    def tell(self):
+        SchoolMember.tell(self)
+        print('Marks:{:d}'.format(self.marks))
+
+
+t = Teacher('Mrs.Chen',24,6000)
+s = Student('chenpeng',23,10000)
+
+print()
+
+members = [t,s]
+for member in members:
+    member.tell()
+
+```
+结果：
+
+![subclass.png](img/subclass.png "")
 
 
 
