@@ -1315,9 +1315,203 @@ print(delimiter.join(mylist))
 
 > ` str ` 类同样的还有一个简洁的方法用联结(Join)序列中的项目,其中字符串将会作为每一项目之间的分隔符.
 
+---
+
+#    **解决问题**
+
+我们已经学习了python语言的很多的一部分了，现在我们尝试来编写一个小程序来实战一下.
+
+###    **问题**
+
+>现在我想编写这样一个程序，它能够帮助我备份所有重要的文件
+
+我们仔细想想这样的问题该如何解决?我们需要进一步的分析它
+*    我们应该如何指定哪些文件是我们需要备份的?
+*    它们应该如何备份?
+*    备份后的文件需要存储到哪里?
+
+下面我们来开始设计我们的程序，下面是我们程序应该如何运转的清单:
+*    需要备份的文件与主目录应该在一份列表中予以指定
+*    备份必须存储在一个主备份目录中
+*    备份文件将打包压缩成zip文件
+*    zip压缩文件的文件名由当前日期和时间构成
+*    我们使用在任何GNU/Linux或者Unix发行版本中都会默认提供标准的zip命令进行打包
+
+### **解决方案**
+
+将下述代码保存为 backup_ver1.py:
+
+```python
+import os
+import time
+
+# 1.需要备份的文件与目录将被
+# 指定在一个列表中
+# 例如在windows中
+# source = ['"C:\\My Documents"','c:\\Code']
+# 如在Mac OS X 与 Linux下：
+source = ['E:\\Coding\\es6study']
+# 在这里需要在字符串中使用双引号，用以括起其中包含空格的名称
+
+# 2.备份文件必须存储在一个主备份目录中
+# 例如在windows 下：
+# target_dir = 'E:\\Backup'
+# 又例如在 Mac OS X 与 Linux 下：
+target_dir = 'E:\\Testing'
+
+# 3.备份文件将打包压缩成zip文件
+# 4.zip压缩文件名由当前日期与时间构成
+target = target_dir+os.sep+\
+    time.strftime('%Y%m%d%H%M%S')+'.zip'
+
+# 如果目标目录文件不存在需要进行创建
+if not os.path.exists(target_dir):
+    os.mkdir(target_dir)
+
+# 5.我们用zip命令将文件打包成zip格式
+zip_command = 'zip -r {0} {1}'.format(target,' '.join(source))
+
+# 运行备份
+print('Zip command is :')
+print(zip_command)
+print('Running:')
+if os.system(zip_command) == 0:
+    print('Successful backup to',target)
+else:
+    print('Backup Failed!')
+```
+> 由于文件的名字由当前日期与实践构成，这里通过`time.strftime()`函数来创建
+> 在这里要注意 ` os.sep `的使用方式--它将根据你的操作系统给出相应的操作符
+在GNU/Linux 与 Unix 中它会是'/',在windows中它会是'\\',在Mac OS中它会是':'
+> `time.strftime()`函数会遵循某些格式
+> 我们可以使用`os.system`函数的命令，这一函数可以使命令就像是在系统中运行的.
 
 
+###    **第二版**
 
+在第一个版本中已经能够工作，但是还有一个更好的文件命名机制-使用时间作为文件名，存储在以当前日期为名字的文件夹中，这一文件夹则照常存储在主备份目录下.
+
+```python
+import os
+import time
+
+# 1.需要备份的文件与目录将被
+# 指定在一个列表中
+# 例如在windows中
+# source = ['"C:\\My Documents"','c:\\Code']
+# 如在Mac OS X 与 Linux下：
+# source = ['/users/swa/notes']
+source = ['E:\\Coding\\es6study']
+# 在这里需要在字符串中使用双引号，用以括起其中包含空格的名称
+
+# 2.备份文件必须存储在一个主备份目录中
+# 例如在windows 下：
+# target_dir = 'E:\\Backup'
+# 又例如在 Mac OS X 与 Linux 下：
+# target_dir = '/users/swa/backup'
+target_dir = 'E:\\Testing'
+
+# 如果目标目录文件不存在需要进行创建
+if not os.path.exists(target_dir):
+    os.mkdir(target_dir)
+
+# 3.备份文件将打包压缩成zip文件
+# 4.zip压缩文件名由当前日期与时间构成
+today = target_dir+os.sep+time.strftime('%Y%m%d')
+# 将当前的时间作为zip文件的文件名
+now = time.strftime('%H%M%S')
+
+# ZIP 文件名称格式
+target = today+os.sep+now+'.zip'
+
+# 如果子目录尚不存在则创建一个
+if not os.path.exists(today):
+    os.mkdir(today)
+    print('Successfully created directory',today)
+
+# 5.我们用zip命令将文件打包成zip格式
+zip_command = 'zip -r {0} {1}'.format(target,' '.join(source))
+
+# 运行备份
+print('Zip command is :')
+print(zip_command)
+print('Running:')
+if os.system(zip_command) == 0:
+    print('Successful backup to',target)
+else:
+    print('Backup Failed!')
+```
+
+> 通过`os.path.exists `函数来检查主文件目录中是否已经存在了以当前日期作为名称的子目录.如果尚未存在，我们通过` os.mkdir `函数来创建一个.
+
+
+###    **第三版**
+
+我们希望用户在压缩文件的时候zip文件可以带上用户的说明.
+
+保存为 backup_ver3.py
+
+```python
+
+import os
+import time
+
+# 1.需要备份的文件与目录将被
+# 指定在一个列表中
+# 例如在windows中
+# source = ['"C:\\My Documents"','c:\\Code']
+# 如在Mac OS X 与 Linux下：
+# source = ['/users/swa/notes']
+source = ['E:\\Coding\\es6study']
+# 在这里需要在字符串中使用双引号，用以括起其中包含空格的名称
+
+# 2.备份文件必须存储在一个主备份目录中
+# 例如在windows 下：
+# target_dir = 'E:\\Backup'
+# 又例如在 Mac OS X 与 Linux 下：
+# target_dir = '/users/swa/backup'
+target_dir = 'E:\\Testing'
+
+# 如果目标目录文件不存在需要进行创建
+if not os.path.exists(target_dir):
+    os.mkdir(target_dir)
+
+# 3.备份文件将打包压缩成zip文件
+# 4.zip压缩文件名由当前日期与时间构成
+today = target_dir+os.sep+time.strftime('%Y%m%d')
+# 将当前的时间作为zip文件的文件名
+now = time.strftime('%H%M%S')
+
+# 添加一条来自用户注释以创建
+# zip 文件的文件名
+comment = input('Enter a comment -->')
+# 检查是否有评论键入
+if len(comment) == 0:
+    target = today + os.sep+now+'.zip'
+else:
+    target = today + os.sep + now +'_'+\
+             comment.replace(' ','_')+'.zip'
+
+
+# 如果子目录尚不存在则创建一个
+if not os.path.exists(today):
+    os.mkdir(today)
+    print('Successfully created directory',today)
+
+# 5.我们用zip命令将文件打包成zip格式
+zip_command = 'zip -r {0} {1}'.format(target,' '.join(source))
+
+# 运行备份
+print('Zip command is :')
+print(zip_command)
+print('Running:')
+if os.system(zip_command) == 0:
+    print('Successful backup to',target)
+else:
+    print('Backup Failed!')
+```
+
+> 注意本代码中在为用户评论修改zip文件名称时要注意使用'\'，注意区分物理行和逻辑行的区别
 
 
 
