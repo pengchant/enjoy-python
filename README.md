@@ -1108,20 +1108,212 @@ print('Number of animals in the new zoo is ',len(new_zoo)-1+len(new_zoo[2]))
 > 一个空的元素由一对圆括号组成，就像 `myempty=()` 这样.然而，一个只拥有一个项目的元祖并不像这样简单.你必须在第一个项目的后边加上一个逗号来指定它，如此一来python才可以识别出在这个表达式想表达的是一个元组还是一个对象.如果你想指定一个包含项目2的元组你必须指定`singleton=(2,)`
 
 
+###    **字典**
+
+字典就像一本地址簿，如果你知道某人的姓名你就可以找到对方更多详细的信息，我们将键值(Keys)和值(Values)相互联系在一起.需要注意的是键值必须是唯一的。
+
+需要重点注意的是：你只能使用不可变的对象作为字典的键值，
+
+但是你可以使用可变或者不可变的对象作为字典中的值.
+
+在字典中你可以通过使用符号构成 ` d = {key:value1,key2:value2} ` 这样的形式来制定对应的键值对.
+
+另外，在字典中成对的键值对不会以任何方式进行排序.如果你希望为它们安排一个特别的次序，只能在使用他们之前进行排序.
+
+案例(ds_using_dict.py)
+
+```python
+ab = {
+    'Swaroop':'swarrop@swarroopch.com',
+    'Larry':'larry@wall.org',
+    'Matsumoto':'matz@ruby-lang.org',
+    'Spammer':'spammer@hotmail.com'
+}
+
+print("Swaroop's address is ",ab['Swaroop'])
+
+del ab['Spammer']
+
+print('\n There are {} contacts in the address-book\n'.format(len(ab)))
+
+for name,address in ab.items():
+    print('Contact {} at {}'.format(name,address))
+
+ab['Guido'] = 'guido@python.org'
+
+if 'Guido' in ab:
+    print("\nGuido's address is",ab['Guido'])
+
+```
+
+输出：
+
+![ds_using_dict.png](img/ds_using_dict.png "")
 
 
+> 我们可以通过索引运算符来制定某一个键值以访问相应的键值配对.
+
+> 我们可以通过` del `语句来删除某一个键值-值配对.
+
+> 通过 ` item `方法来访问字典中的每一对键值-值配对信息.
+
+> 如果想增加一对新的键值-值配对，我们可以简单的通过使用索引郁金算符访问一个键值并为之分配相应的值.
+
+>我们可以通过` in  `运算符来检查某对键值-值配对是否存在.
+
+> 如果你曾经在函数中使用过关键字参数，那么你就已经使用过字典了。当你在你的函数中访问某一变量时，它其实就是访问字典中的某个函数.(在编译器设计术语中，这叫做符号表[Symbol Table])
 
 
+###    **序列**
+
+序列(Sequence) 有两种表现形式:
+*     列表(List)
+*     元祖(Tuples)
+*     字符串(Characters)
 
 
+序列的主要功能：
+*     资格测试(Membership Test) 也就是 ` in ` 与 ` not in `表达式
+*     索引操作(Indexing Operations) 他们能够允许我们直接获取序列中的特定项目
 
 
+> 上面所提到的序列的三种状态，同样有一种切片(Slicing)运算符，它能够允许我们序列中的某段切片--也就是序列中的一部分.
 
 
+```python
+shoplist = ['apple','mango','carrot','banana']
+
+name = 'swaroop'
+
+# indexing or 'subscription' operation
+print('Item 0 is',shoplist[0])
+print('Item 1 is',shoplist[1])
+print('Item 2 is',shoplist[2])
+print('Item 3 is',shoplist[3])
+print('Item -1 is',shoplist[-1]) # banana
+print('Item -2 is',shoplist[-2]) # carrot
+print('Character 0 is',name[0])
+
+# slicing on a list
+print('Item 1 to 3 is',shoplist[1:3]) # [1,3)
+print('Item 2 to end is',shoplist[2:]) # from index 2 to the end
+print('Item 1 to -1 is',shoplist[1:-1]) # not included the last one ,because -1 equals 3(last one)
+print('Item start to end is',shoplist[:]) #all
+
+# slicing on characters
+print('characters 1 to 3 is',name[1:3]) #[1,3)
+print('characters 2 to end is',name[2:]) # from index 2 to the end
+print('characters 1 to -1 is',name[1:-1]) # from index 1 to the last one(not included)
+print('characters start to end is',name[:]) # all
+```
+
+输出结果：
+
+![ds_seq.png](img/ds_seq.png "")
+
+> 需要特别注意的一点切片操作中，数字是可选的，但是冒号` : `却不是
+> 第一个数字是切片开始的位置，第二个位置是切片结束的位置，重点强调包括开始的位置，但是不包括结束的位置
 
 
+同样的在切片操作中还提供的第三个参数，叫做步长(Step)默认的步长是1
+
+```python
+>>>    shoplist = ['apple','mango','carrot','banana']
+>>>    shoplist[::1]
+['apple','mango','carrot','banana']
+>>>    shoplist[::2]
+['apple','carrot']
+>>>    shoplist[::3]
+['apple','banana']
+>>>    shoplist[::-1]
+['banana','carrot','mango','apple']
+```
+
+> 序列的一大优点在于你可以使用同样的方式去访问元祖、列表、字符串.
 
 
+###    **集合**
+
+集合(Set)是简单对象的无序集合(Collection).
+
+通过使用集合可以测试某些对象的资格或者情况，检查他们是否是其它集合的子集,找到两个集合的交集等等.
+
+
+![set.png](img/set.png "")
+
+
+###    **引用**
+
+当你创建了一个对象并将值给某个变量时，变量会查阅(Refer)某个对象,并且它也不会代表对象本身.也就是说，变量名只是指向你计算机内存中存储了相应对象的那一部分.
+
+这叫做将名称绑定(Binding)给哪一个对象.
+
+案例(ds_refrences.py)
+
+```python
+print('Simple Assignment')
+shoplist = ['apple','mango','carrot','banana']
+
+mylist = shoplist
+
+del shoplist[0]
+
+print('shoplist is ',shoplist)
+print('mylist is ',mylist)
+
+print('copy by making a full slice')
+mylist = shoplist[:]
+
+del mylist[0]
+
+print('shoplist is ',shoplist)
+print('mylist is ',mylist)
+```
+
+输出结果：
+
+![ds_reference.png](img/ds_reference.png "")
+
+> 重要提示，如果你希望创作一份如薛烈等复杂对象的副本使用切片来完成
+> 如果你仅仅将一个变量名赋予给另一个变量名，那么他们都会查阅同一个对象，如果你对此不够小心，那么他将造成很大的麻烦.
+
+
+###    **有关字符串更多的内容**
+
+字符串也是一种对象，他也有自己很丰富的方法，可以做到检查字符串中的一部分，或者是去掉空格等几乎一切的事情.
+
+下面是使用字符串的具体案例：（ds_str_methods.py）
+
+```python
+name = 'Swaroop'
+
+if name.startswith('Swa'):
+    print('Yes,the string starts with "Swa"')
+
+if 'a' in name:
+    print('Yes,it contains the string "a"')
+
+if name.find('war')!= -1:
+    print('Yes,it contains the string "war"')
+
+delimiter = '_*_'
+mylist = ['China','Brazil','Russia','India']
+
+print(delimiter.join(mylist))
+```
+
+输出结果：
+
+![ds_str_methods.png](img/ds_str_methods.png "")
+
+
+> ` startswidth `用于检查查找的字符是否在字符串的开头
+
+> ` in ` 运算符可以检查给定的字符串是否是查询字符串的一部分
+
+> ` find ` 方法用于定位字符串给定的字符串的位置。如果找不到相应的字符串那么就会返回-1
+
+> ` str ` 类同样的还有一个简洁的方法用联结(Join)序列中的项目,其中字符串将会作为每一项目之间的分隔符.
 
 
 
