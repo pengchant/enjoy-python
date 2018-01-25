@@ -1167,14 +1167,14 @@ if 'Guido' in ab:
 ###    **序列**
 
 序列(Sequence) 有两种表现形式:
-*     列表(List)
-*     元祖(Tuples)
-*     字符串(Characters)
+*    列表(List)
+*    元祖(Tuples)
+*    字符串(Characters)
 
 
 序列的主要功能：
-*     资格测试(Membership Test) 也就是 ` in ` 与 ` not in `表达式
-*     索引操作(Indexing Operations) 他们能够允许我们直接获取序列中的特定项目
+*    资格测试(Membership Test) 也就是 ` in ` 与 ` not in `表达式
+*    索引操作(Indexing Operations) 他们能够允许我们直接获取序列中的特定项目
 
 
 > 上面所提到的序列的三种状态，同样有一种切片(Slicing)运算符，它能够允许我们序列中的某段切片--也就是序列中的一部分.
