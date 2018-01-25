@@ -1684,16 +1684,26 @@ Robot.how_may()
 ![oop_obvar.png](img/oop_obvar.png "")
 
 > `population`属于`Robot`类,它是一个类变量.name 变量属于一个对象,故他是一个对象变量
+>
 > 除了使用`Robot.population`，我们还可以使用`self.__class__.population`，因为每个对象都通过`self.__class__`属性来引用它的类.
+>
 >`how_many`实际上是一个属于类而非属于对象的方法，这就意味着我们将它定义为一个`classmethod`（类方法）或是一个`staticmethod(静态方法)`.
+>
 > 我们使用装饰器(Decorator)来将`how_many`方法标记为类方法.
+>
 > `@classmethod`装饰器等价于调用:`how_many = classmethod(how_many)
+>
 > 只能使用self来引用同一对象的变量与方法，这被称作属性引用(Attribute Reference)
+>
 > 我们还可以通过`Robot.__doc__`访问类的文档字符串,对于方法字符串可以使用`Robot.say_hi.__doc__`
+>
 > 所有的类成员都是公开的，但是在pyton中有这样一个约定，如果使用数据成员并在名字中使用双下划线作为前缀诸如`__privatevar`这样的形式，python会使用名称调整(Name-mangling)来使其有效地成为一个私有变量.
+>
 > 另外，所有的类成员(包括数据成员)都是公开的,并且python中所有的方法都是虚拟的(Virtual)
 
 ###    **继承**
+
+面向对象编程的一个优点就是代码的重用(Reuse),重用的一种实现方法就是继承机制.
 
 案例:
 ```python
@@ -1750,6 +1760,10 @@ for member in members:
 
 ![subclass.png](img/subclass.png "")
 
+> python 不会自动调用基类构造函数你必须自己显式的调用它
+> 如果我们没有在一个子类中定义一个\_\_init\_\_方法，python将会自动调用基类的构造函数
+>
+>如果继承元素中有多个，被称为多重继承(Multiple Inheritance)
 
 
 
