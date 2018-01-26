@@ -1885,7 +1885,148 @@ print(storedlist)
 接着我们通过pickle模块的load函数接受返回的对象，这个过程叫做拆封.
 
 
+###    **Unicode**
 
+截止到目前我们使用的只是简单的英文字符，如果我们使用的是中文我们需要使用unicode 类型.
+
+![unicode.png](img/unicode.png "")
+
+当我们阅读或写入某一文件或当我们希望与互联网上其他的计算机通信时，我们需要将我们的unicode字符串能够转换至一个能够被发送和接受的格式，这个格式叫做utf-8.
+
+案例:
+
+```python
+# encoding=utf-8
+
+import  io
+
+f = io.open('abc.txt','wt',encoding="utf-8")
+f.write(u"Imagine none-English language here")
+f.close()
+
+text = io.open('abc.txt',encoding="utf-8").read()
+print(text)
+
+```
+
+输出：
+
+![io_unicode.png](img/io_unicode.png "")
+
+每当我们诸如上面那样使用unicode字面量编写一款程序时，我们必须确保python已经被告知我们使用的是utf-8，因此我们必须将#encoding=utf-8这一注释放在我们程序的顶端.
+我们使用io.open并提供了编码与解码参数来告诉python我们正在使用unicode.
+
+
+---
+
+#    **异常**
+
+当程序出现例外的情况就会发生异常(Exception).
+
+###    **错误**
+
+如果我们在编写代码时候不小心平措了单词，python就会跑出一个语法错误.
+
+![error.png](img/error.png "")
+
+> 注意到一个NameError的错误会被抛出，同时python还会打印出检测到的错误发生的位置.这就是一个错误处理器(Error Handler)为这个错误所做的事情.
+
+###    **异常**
+
+我们尝试读取用户输入的内容，如果按下ctrl-d：
+
+        >>>s = input('enter something')
+        Enter something --> Traceback (most recent call         last):
+        File "<stdin>", line 1, in <module>
+        EOFError
+        
+
+###    **处理异常**
+
+我们可以通过使用`try..except`来处理异常的情况.
+
+案例（exceptions_handle.py）:
+
+```python
+try:
+    text = input('enter something-->')
+except EOFError:
+    print('why did you do an eof one me?')
+except KeyboardInterrupt:
+    print('You cancelled the operation')
+else:
+    print('you entered {}'.format(text))
+
+    
+```
+
+输出结果：
+
+![exceptions_handle.png](img/exceptions_handle.png "")
+
+> else 子句在没有发生异常的时候执行
+
+
+###    **抛出异常**
+
+我们可以通过raise语句来引发一次异常,具体的方法就是提供错误名称或者异常名以及要跑出的异常的对象.
+
+案例：(exceptions_raise.py)
+
+
+###    **Try...Finally**
+
+假设你正在读取其中的一份文件，你应该如何确保文件对象被正确关闭，无论是否会发生异常，可以通过finally来完成.
+
+案例(exceptions_finally.py)
+
+```python
+
+import sys
+import time
+
+f = None
+
+try:
+    f = open('poem.txt')
+    while True:
+        line = f.readline()
+        if len(line) == 0:
+            break
+        print(line,end = ' ')
+        sys.stdout.flush()
+        print('-------press ctrl+c now-------')
+        time.sleep(2)
+except IOError:
+    print('could not find file poem.txt')
+except KeyboardInterrupt:
+    print("! you cancelled the reading from the line.")
+finally:
+    if f:
+        f.close()
+    print('cleaning up:closed the file')
+    
+```
+
+输出：
+
+![ex_finally.png](img/ex_finally.png "")
+
+
+###    **with语句**
+
+在try中获取资源然后在finally中释放资源使用常见的模式，因此还有一个with语句使得这一过程可以以一种干净的姿态得以完成.
+
+案例：（exceptions_using_with.py）
+
+```python
+with open("poem.txt") as f:
+    for line in f:
+        print(line,end='')
+        
+```
+
+> 它会在代码开始之前调用thefile.\_\_enter\_\_函数，在代码执行完毕之后调用thefile.\_\_exit\_\_
 
 
 
