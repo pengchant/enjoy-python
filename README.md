@@ -1768,6 +1768,123 @@ for member in members:
 >如果继承元素中有多个，被称为多重继承(Multiple Inheritance)
 
 
+---
+
+#    **输入与输出**
+
+如果你希望获取用户输入的内容，并向用户打印出这一些返回结果，我们可以通过`input()`函数和`print()`函数来实现这一需求.
+你可以使用`rjust`方法来获取一个右对齐指定宽度的字符串.
+另一个常见的输入输出的类型就是处理文件.
+
+###    **用户输入内容**
+
+案例：（io_input.py）
+
+```python
+def reverse(text):
+    return text[::-1]
+
+def is_palindrome(text):
+    return text == reverse(text)
+
+something = input("Enter text:")
+if is_palindrome(something):
+    print('yes,it is a palidrome')
+else:
+    print('no,it is not a palindrome')
+
+
+```
+
+输出结果：
+![io_input.png](img/io_input.png "")
+
+> 该程序主要判断字符串是否为回文
+> 利用切片来将字符串取反[::-1]
+
+###    **文件**
+
+你可以创建一个属于file类对象并适当使用它的`read,readline,write`方法来打开或者使用文件，并对它们进行读取或者写入.
+你可以调用`close`方法来告诉pyton你已经完成了对该文件的使用.
+
+案例：（io_using_file.py）
+
+```python
+poem = '''\
+Programming is fun
+when the work is done
+if you wanna make your work also fun:
+    use python!
+'''
+
+# 打开文件以编辑('w'riting)
+f = open('poem.txt','w')
+# 向文件中编写文本
+f.write(poem)
+# 关闭文本
+f.close()
+
+# 如果没有特别指定
+# 将假定启用默认的阅读('r'ead)模式
+f = open('poem.txt')
+while True:
+    line = f.readline()
+    # 零长度指示 EOF
+    if len(line) == 0:
+        break
+    print(line,end='')
+#关闭文件
+f.close()
+
+```
+
+运行结果：
+
+![io_using_file.png](img/io_using_file.png "")
+
+我们使用内置的`open`函数并制定文件名以及我们所希望使用的打开模式来打开一个文件.打开模式可以是：
+
+*    阅读模式('r')
+*    写入模式('w')
+*    追加模式('a')
+
+我们还可以选择是通过文本模式('t')还是二进制模式('b')来读取,x写入或者追加文本.
+我们在循环中使用`readline`方法来读取文件的每一行,当一个空字符串返回时表示我们已经找到了文件的末尾.
+
+> 我不得不禁叹python真的太方便，太强大了!
+
+###    **Pickle**
+
+python提供了一个叫做`pickle`的标准模块，通过它你可以将任何纯python对象存储到一个文件中，并在稍后将其取回.这叫做持久地(Persistently)存储对象.
+
+案例（io_pickle.py）
+
+```python
+import  pickle
+
+shoplistfile = 'shoplist.data'
+shoplist = ['apple','mango','carrot']
+
+f = open(shoplistfile,'wb')
+pickle.dump(shoplist,f)
+f.close()
+
+del shoplist
+
+f = open(shoplistfile,'rb')
+storedlist = pickle.load(f)
+print(storedlist)
+
+```
+
+输出结果：
+
+![io_pickle.png](img/io_pickle.png "")
+
+我们将一个对象存储到一个文件中，我们首先需要通过open以写入二进制的模式打开，然后调用pickle模块的dump函数，这一个过程叫做封装.
+接着我们通过pickle模块的load函数接受返回的对象，这个过程叫做拆封.
+
+
 
 
 
