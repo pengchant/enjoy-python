@@ -2028,6 +2028,203 @@ with open("poem.txt") as f:
 
 > 它会在代码开始之前调用thefile.\_\_enter\_\_函数，在代码执行完毕之后调用thefile.\_\_exit\_\_
 
+---
+
+#    **标准库**
+
+python的标准库（Python Standrad Library）包含了大量有用的模块，同时也是每个标准python安装包中的一部分，熟悉python标准库十分重要，你要你数值这些苦就可以做到很多事情.
 
 
- 
+###    **sys模块**
+
+![sl_sys.png](img/sl_sys.png "")
+
+> sys模块包含一个version元祖可以提供给我们版本信息.
+
+
+###    **日志模块**
+
+案例：
+
+```python
+import os
+import platform
+import logging
+
+if platform.platform().startswith('Windows'):
+    logging_file = os.path.join(os.getenv('HOMEDRIVE'),
+                                os.getenv('HOMEPATH'),
+                                'test.log')
+else:
+    logging_file = os.path.join(os.getenv('HOME'),
+                                'test.log')
+
+print('logging to',logging_file)
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s:%(levelname)s:%(message)s',
+    filename=logging_file,
+    filemode='w'
+)
+
+logging.debug('start of the program')
+logging.info('doing something')
+logging.warning('dying now')
+
+```
+
+结果：
+
+![log.png](img/log.png "")
+
+我们使用了三个模块：
+*    os模块用于和操作系统交互
+*    platform用于获取操作系统的信息
+*    logging用来记录信息
+
+更多的功能模块参考[python library](https://docs.python.org/3/library/ "")
+
+
+---
+
+#    **更多**
+
+到这里python的大部分内容已经涉及到了，现在我们再来探讨其他的一些方面，让我对python的认识更加全面.
+
+###    **传递元祖**
+
+你希望一个函数返回多个值吗？python是可以轻松做到的!
+
+![pass_tuples.png](img/pass_tuples.png "")
+
+这意味有一个快速的方法来交换两个元素的值：
+
+![exchange.png](img/exchange.png "")
+
+
+###    **特殊方法**
+
+诸如\_\_init\_\_和\_\_del\_\_ 等一些方法对于类来说有特殊的意义
+
+比如说你希望使用x[key]操作，你只需要实现`__getitem__()`方法
+下面列出了一些特殊的方法:
+
+![sfunc.png](img/sfunc.png "")
+
+
+###    **单语句块**
+
+我们已经见识过每一个与语句块都由其自身的缩进级别与其他部分相区分.如果你的语句块只包括单独的一句语句，你可以在同一行指定它.
+
+![st.png](img/st.png "")
+
+###    **Lambda表格**
+
+案例:
+
+```python
+points = [{'x':2,'y':3},
+          {'x':4,'y':1}]
+
+points.sort(key=lambda i:i['y'])
+print(points)
+```
+输出：
+
+![more_lambda.png](img/more_lambda.png "")
+
+
+###    **列表推导**
+
+```python
+listone = [2,3,4]
+listtwo = [2*i for i in listone if i>2]
+
+print(listtwo)
+```
+
+结果:
+
+![list_com.png](img/list_com.png "")
+
+
+###    **在函数中接收元组与字典**
+
+有一种特殊的方法，即分别使用* 或者 ** 作为元祖或者字典的前缀.
+
+![rp_td.png](img/rp_td.png "")
+
+*    *一个星号将传递元组
+*    **两个星号传递字典
+
+
+###    **assert 语句**
+
+assert用于断言某事是真的，当断言失败时就会抛出AssertionError.
+
+![assert.png](img/assert.png "")
+
+###    **装饰器**
+
+装饰器(Decorators)是应用包装函数的快捷方式，这将有利于不断地对一些功能代码一遍又一遍的包装.
+例如我们自己创建了一个` retry `的装饰器，我们可以将其运用到任何函数之中，如果在一次运行中抛出了任何错误，他就会尝试重新运行，知道最大次数为5 次.
+
+实例代码：
+
+```python
+from time import sleep
+from functools import wraps
+import  logging
+
+logging.basicConfig()
+log = logging.getLogger('retry')
+
+
+# 定义retry
+def retry(f):
+    @wraps(f)
+    def wrapped_f(*args,**kwargs):
+        MAX_ATTEMPTS = 5
+        for attempt in range(1,MAX_ATTEMPTS+1):
+            try:
+                return f(*args,**kwargs)
+            except:
+                log.exception("Attempt %s/%s failed: %s",
+                              attempt,
+                              MAX_ATTEMPTS,
+                              (args,kwargs))
+                # 休眠
+                sleep(10*attempt)
+        log.critical('All is %s attempts failed:%s',
+                     MAX_ATTEMPTS,
+                     (args,kwargs))
+
+    return wrapped_f
+
+
+counter = 0
+
+
+@retry
+def save_to_database(arg):
+    print('write to a database or make a net work call or etc.')
+    print('this will be automatically retried if exceptions is thrown.')
+    global counter
+    counter += 1
+    if counter < 2:
+        raise ValueError(arg)
+
+
+if __name__ == "__main__":
+    save_to_database("some bad value")
+```
+
+输出结果：
+
+![decorators.png](img/decorators.png "")
+
+> 红色的并不是代码有问题，而是程序故意在counter<2的时候故意抛出的异常，然后装饰器会没间隔一段时间去重新调用函数.如果尝试的次数超过5次则代表调用函数失败.
+
+
+
